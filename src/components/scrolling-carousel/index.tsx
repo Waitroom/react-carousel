@@ -15,6 +15,7 @@ export const ScrollingCarousel: FunctionComponent<SliderProps> = ({
 	className,
 	leftIcon,
 	rightIcon,
+	showDisabledArrows,
 	navStyle,
 	sliderStyle,
 	...rest
@@ -128,10 +129,16 @@ export const ScrollingCarousel: FunctionComponent<SliderProps> = ({
 	const getArrow = (
 		direction: SlideDirection,
 		data: string,
+		enabled: boolean,
 		element?: ReactElement,
 	) => {
+		if (!showDisabledArrows && !enabled) return null;
 		return (
-			<div data-arrow={data} onClick={() => slide(direction)}>
+			<div
+				className={enabled ? 'enabled' : 'disabled'}
+				data-arrow={data}
+				onClick={() => slide(direction)}
+			>
 				{element ?? <button />}
 			</div>
 		);
@@ -157,8 +164,8 @@ export const ScrollingCarousel: FunctionComponent<SliderProps> = ({
 				))}
 			</div>
 			<div style={navStyle}>
-				{showArrow.left && getArrow(SlideDirection.Right, 'left', leftIcon)}
-				{showArrow.right && getArrow(SlideDirection.Left, 'right', rightIcon)}
+				{getArrow(SlideDirection.Right, 'left', showArrow.left, leftIcon)}
+				{getArrow(SlideDirection.Left, 'right', showArrow.right, rightIcon)}
 			</div>
 		</div>
 	);
@@ -172,6 +179,7 @@ export interface SliderProps {
 	style?: React.CSSProperties;
 	navStyle?: React.CSSProperties;
 	sliderStyle?: React.CSSProperties;
+	showDisabledArrows?: boolean;
 }
 
 export type Arrows = {
