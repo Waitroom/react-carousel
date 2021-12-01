@@ -4,12 +4,13 @@ module.exports = {
 	collectCoverageFrom: ['src/**/*.{ts,tsx}'],
 	coverageThreshold: {
 		global: {
-			branches: 83,
-			functions: 83,
-			lines: 83,
-			statements: 83,
+			branches: 75,
+			functions: 75,
+			lines: 75,
+			statements: 75,
 		},
 	},
+	testEnvironment: 'jsdom',
 	testPathIgnorePatterns: ['<rootDir>/__tests__/__fixtures__/'],
 	transform: {
 		'^.+\\.tsx?$': 'ts-jest',

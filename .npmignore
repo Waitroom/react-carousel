@@ -4,3 +4,4 @@ website
 __test__
 coverage
 src
+.npmrc

@@ -1,19 +1,23 @@
 import React, {
 	FunctionComponent,
 	MouseEvent,
-	useState,
+	ReactElement,
+	useCallback,
 	useRef,
-	useCallback, ReactElement,
+	useState,
 } from 'react';
-import { Item, SlideDirection } from '../../types/carousel';
-import styles from '../../styles/slider/styles.module.css';
 import { getOuterWidth } from '../../helpers';
+import styles from '../../styles/slider/styles.module.css';
+import { Item, SlideDirection } from '../../types/carousel';
 
 export const ScrollingCarousel: FunctionComponent<SliderProps> = ({
 	children,
 	className,
 	leftIcon,
-	rightIcon
+	rightIcon,
+	navStyle,
+	sliderStyle,
+	...rest
 }: SliderProps) => {
 	const slider = useRef<HTMLDivElement>(null);
 	const [isDown, setIsDown] = useState(false);
@@ -121,22 +125,24 @@ export const ScrollingCarousel: FunctionComponent<SliderProps> = ({
 		slider.current!.scrollLeft = amount;
 	};
 
-	const getArrow = (direction: SlideDirection, data: string, element?: ReactElement) => {
+	const getArrow = (
+		direction: SlideDirection,
+		data: string,
+		element?: ReactElement,
+	) => {
 		return (
 			<div data-arrow={data} onClick={() => slide(direction)}>
 				{element ?? <button />}
 			</div>
-		)
+		);
 	};
 
 	return (
-		<div className={`${styles.sliderBase} ${className}`} data-testid="carousel">
-			{showArrow.left && (
-				getArrow(SlideDirection.Right, "left", leftIcon)
-			)}
-			{showArrow.right && (
-				getArrow(SlideDirection.Left, "right", rightIcon)
-			)}
+		<div
+			className={`${styles.sliderBase} ${className}`}
+			data-testid="carousel"
+			{...rest}
+		>
 			<div
 				ref={ref}
 				onMouseDown={mouseDown}
@@ -144,8 +150,15 @@ export const ScrollingCarousel: FunctionComponent<SliderProps> = ({
 				onMouseUp={mouseUp}
 				onMouseMove={mouseMove}
 				className={styles.slider}
+				style={sliderStyle}
 			>
-				{children}
+				{children.map((c, i) => (
+					<React.Fragment key={i}>{c}</React.Fragment>
+				))}
+			</div>
+			<div style={navStyle}>
+				{showArrow.left && getArrow(SlideDirection.Right, 'left', leftIcon)}
+				{showArrow.right && getArrow(SlideDirection.Left, 'right', rightIcon)}
 			</div>
 		</div>
 	);
@@ -156,6 +169,8 @@ export interface SliderProps {
 	className?: string;
 	leftIcon?: ReactElement;
 	rightIcon?: ReactElement;
+	navStyle?: React.CSSProperties;
+	sliderStyle?: React.CSSProperties;
 }
 
 export type Arrows = {

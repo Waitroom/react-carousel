@@ -1,10 +1,10 @@
+import { act, cleanup, fireEvent, render } from '@testing-library/react';
 import React, { MouseEvent } from 'react';
-import { render, cleanup, fireEvent } from '@testing-library/react';
 import { Carousel } from '../src/components/carousel';
 import { defaultProps } from '../src/components/carousel/defaultProps';
-import { carouselItemNodes, dynamicCarouselItemNodes } from './__fixtures__/nodes';
 import * as helpers from '../src/helpers';
 import * as hooks from '../src/hooks';
+import { carouselItemNodes, dynamicCarouselItemNodes } from './__fixtures__/nodes';
 
 describe('<Carousel />', () => {
 	let mockGetPageX: jest.SpyInstance<
@@ -16,6 +16,7 @@ describe('<Carousel />', () => {
 		mockGetPageX.mockRestore();
 		jest.clearAllTimers();
 		jest.resetAllMocks();
+		jest.useRealTimers;
 		cleanup();
 	});
 
@@ -34,6 +35,7 @@ describe('<Carousel />', () => {
 			};
 		});
 		jest.useFakeTimers();
+		jest.spyOn(global, 'setTimeout');
 		mockGetPageX = jest
 			.spyOn(helpers, 'getPageX')
 			.mockImplementation((_: MouseEvent) => 600);
@@ -65,10 +67,11 @@ describe('<Carousel />', () => {
 		);
 		const carousel = getByTestId('carousel');
 
-		fireEvent.click(carousel);
-		fireEvent.keyDown(carousel, { keyCode: 39 });
-		jest.runAllTimers();
-
+		act(() => {
+			fireEvent.click(carousel);
+			fireEvent.keyDown(carousel, { keyCode: 39 });
+			jest.runAllTimers();
+		});
 		expect(setTimeout).toHaveBeenCalledTimes(1);
 		expect(setTimeout).toHaveBeenLastCalledWith(
 			expect.any(Function),
@@ -86,8 +89,10 @@ describe('<Carousel />', () => {
 		);
 		const carousel = getByTestId('carousel');
 
-		fireEvent.click(carousel);
-		fireEvent.keyDown(carousel, { keyCode: 39 });
+		act(() => {
+			fireEvent.click(carousel);
+			fireEvent.keyDown(carousel, { keyCode: 39 });
+		});
 
 		expect(setTimeout).toHaveBeenCalledTimes(0);
 	});
@@ -103,8 +108,10 @@ describe('<Carousel />', () => {
 		);
 		const carousel = getByTestId('carousel');
 
-		fireEvent.click(carousel);
-		fireEvent.keyDown(carousel, { keyCode: 37 });
+		act(() => {
+			fireEvent.click(carousel);
+			fireEvent.keyDown(carousel, { keyCode: 37 });
+		});
 
 		expect(setTimeout).toHaveBeenCalledTimes(0);
 	});
@@ -120,8 +127,10 @@ describe('<Carousel />', () => {
 		);
 		const carousel = getByTestId('carousel');
 
-		fireEvent.click(carousel);
-		fireEvent.keyDown(carousel, { keyCode: 317 });
+		act(() => {
+			fireEvent.click(carousel);
+			fireEvent.keyDown(carousel, { keyCode: 317 });
+		});
 
 		expect(setTimeout).toHaveBeenCalledTimes(0);
 	});
@@ -139,8 +148,10 @@ describe('<Carousel />', () => {
 
 		expect(button).not.toBeNull();
 
-		fireEvent.click(button!);
-		jest.runAllTimers();
+		act(() => {
+			fireEvent.click(button!);
+			jest.runAllTimers();
+		});
 
 		expect(setTimeout).toHaveBeenCalledTimes(1);
 		expect(setTimeout).toHaveBeenLastCalledWith(
@@ -162,8 +173,10 @@ describe('<Carousel />', () => {
 
 		expect(button).not.toBeNull();
 
-		fireEvent.click(button!);
-		jest.runAllTimers();
+		act(() => {
+			fireEvent.click(button!);
+			jest.runAllTimers();
+		});
 
 		expect(setTimeout).toHaveBeenCalledTimes(1);
 		expect(setTimeout).toHaveBeenLastCalledWith(
@@ -187,15 +200,19 @@ describe('<Carousel />', () => {
 			.spyOn(helpers, 'getPageX')
 			.mockImplementation((_: MouseEvent) => 600);
 
-		fireEvent.mouseDown(trackList, { pageX: 600 });
+		act(() => {
+			fireEvent.mouseDown(trackList, { pageX: 600 });
+		});
 
 		mockGetPageX = jest
 			.spyOn(helpers, 'getPageX')
 			.mockImplementation((_: MouseEvent) => 390);
 
-		fireEvent.mouseMove(trackList, { pageX: 390 });
-		fireEvent.mouseUp(trackList, { pageX: 390 });
-		jest.runAllTimers();
+		act(() => {
+			fireEvent.mouseMove(trackList, { pageX: 390 });
+			fireEvent.mouseUp(trackList, { pageX: 390 });
+			jest.runAllTimers();
+		});
 
 		expect(setTimeout).toHaveBeenCalledTimes(1);
 		expect(setTimeout).toHaveBeenLastCalledWith(
@@ -220,15 +237,19 @@ describe('<Carousel />', () => {
 			.spyOn(helpers, 'getPageX')
 			.mockImplementation((_: MouseEvent) => 600);
 
-		fireEvent.mouseDown(trackList, { pageX: 600 });
+		act(() => {
+			fireEvent.mouseDown(trackList, { pageX: 600 });
+		});
 
 		mockGetPageX = jest
 			.spyOn(helpers, 'getPageX')
 			.mockImplementation((_: MouseEvent) => 190);
 
-		fireEvent.mouseMove(trackList, { pageX: 190 });
-		fireEvent.mouseUp(trackList, { pageX: 190 });
-		jest.runAllTimers();
+		act(() => {
+			fireEvent.mouseMove(trackList, { pageX: 190 });
+			fireEvent.mouseUp(trackList, { pageX: 190 });
+			jest.runAllTimers();
+		});
 
 		expect(setTimeout).toHaveBeenCalledTimes(1);
 		expect(setTimeout).toHaveBeenLastCalledWith(
@@ -250,8 +271,10 @@ describe('<Carousel />', () => {
 
 		expect(button).not.toBeNull();
 
-		fireEvent.click(button!);
-		jest.runAllTimers();
+		act(() => {
+			fireEvent.click(button!);
+			jest.runAllTimers();
+		});
 
 		expect(setTimeout).toHaveBeenCalledTimes(1);
 		expect(setTimeout).toHaveBeenLastCalledWith(
@@ -273,8 +296,10 @@ describe('<Carousel />', () => {
 
 		expect(button).not.toBeNull();
 
-		fireEvent.click(button!);
-		jest.runAllTimers();
+		act(() => {
+			fireEvent.click(button!);
+			jest.runAllTimers();
+		});
 
 		expect(setTimeout).toHaveBeenCalledTimes(1);
 		expect(setTimeout).toHaveBeenLastCalledWith(
@@ -298,7 +323,9 @@ describe('<Carousel />', () => {
 
 		expect(button).not.toBeNull();
 
-		fireEvent.click(button!);
+		act(() => {
+			fireEvent.click(button!);
+		});
 
 		expect(button!.innerHTML).toEqual('1');
 	});
@@ -323,8 +350,10 @@ describe('<Carousel />', () => {
 
 		expect(button).not.toBeNull();
 
-		fireEvent.click(button!);
-		jest.runAllTimers();
+		act(() => {
+			fireEvent.click(button!);
+			jest.runAllTimers();
+		});
 
 		expect(paginationCallback).toHaveBeenCalledTimes(1);
 		expect(mockUsePrevious).toBeCalled();
@@ -334,13 +363,13 @@ describe('<Carousel />', () => {
 		const { container } = render(
 			<Carousel
 				{...defaultProps}
-				leftArrow={<div className="left-arrow"/>}
-				rightArrow={<div className="right-arrow"/>}
+				leftArrow={<div className="left-arrow" />}
+				rightArrow={<div className="right-arrow" />}
 				children={carouselItemNodes(6)}
 			/>,
 		);
 
-		expect(container.getElementsByClassName("left-arrow")[0]).toBeTruthy();
-		expect(container.getElementsByClassName("right-arrow")[0]).toBeTruthy();
+		expect(container.getElementsByClassName('left-arrow')[0]).toBeTruthy();
+		expect(container.getElementsByClassName('right-arrow')[0]).toBeTruthy();
 	});
 });
