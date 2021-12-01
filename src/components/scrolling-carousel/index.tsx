@@ -18,7 +18,7 @@ export const ScrollingCarousel: FunctionComponent<SliderProps> = ({
 	navStyle,
 	sliderStyle,
 	...rest
-}: SliderProps) => {
+}) => {
 	const slider = useRef<HTMLDivElement>(null);
 	const [isDown, setIsDown] = useState(false);
 	const [position, setPosition] = useState({
@@ -169,6 +169,7 @@ export interface SliderProps {
 	className?: string;
 	leftIcon?: ReactElement;
 	rightIcon?: ReactElement;
+	style?: React.CSSProperties;
 	navStyle?: React.CSSProperties;
 	sliderStyle?: React.CSSProperties;
 }
