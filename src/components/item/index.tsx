@@ -1,14 +1,9 @@
-import React, {
-	FunctionComponent,
-	useCallback,
-	useState,
-	MouseEvent,
-	TouchEvent,
-} from 'react';
-import { Item, SlideDirection } from '../../types/carousel';
+import * as React from 'react';
+import { FunctionComponent, MouseEvent, TouchEvent, useCallback, useState } from 'react';
 import { getPageX } from '../../helpers';
 import { useWindowWidthChange } from '../../hooks';
 import styles from '../../styles/styles.module.css';
+import { Item, SlideDirection } from '../../types/carousel';
 
 export const ItemProvider: FunctionComponent<ItemProviderProps> = (
 	props: ItemProviderProps,

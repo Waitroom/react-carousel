@@ -17,3 +17,5 @@ coverage
 .idea
 
 .npmrc
+
+.d.ts

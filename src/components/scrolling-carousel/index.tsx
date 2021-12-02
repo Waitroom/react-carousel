@@ -1,5 +1,5 @@
-import React, {
-	Fragment,
+import * as React from 'react';
+import {
 	FunctionComponent,
 	MouseEvent,
 	ReactElement,
@@ -13,7 +13,7 @@ import { Item, SlideDirection } from '../../types/carousel';
 
 export const ScrollingCarousel: FunctionComponent<SliderProps> = ({
 	children,
-	className,
+	className = '',
 	leftIcon,
 	rightIcon,
 	showDisabledArrows,
@@ -164,7 +164,7 @@ export const ScrollingCarousel: FunctionComponent<SliderProps> = ({
 				style={sliderStyle}
 			>
 				{children.map((c, i) => (
-					<Fragment key={i}>{c}</Fragment>
+					<React.Fragment key={i}>{c}</React.Fragment>
 				))}
 			</div>
 			{showArrow.has ? (

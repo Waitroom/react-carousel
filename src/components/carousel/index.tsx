@@ -1,26 +1,27 @@
-import React, {
-	useState,
+import * as React from 'react';
+import {
 	FunctionComponent,
 	KeyboardEvent,
+	ReactElement,
 	useEffect,
 	useRef,
-	ReactElement,
+	useState,
 } from 'react';
-import { Arrow } from '../arrow';
-import { ItemProvider } from '../item';
 import {
-	rotateItems,
-	getTransformAmount,
-	getCurrent,
-	initItems,
-	getShowArrow,
 	cleanItems,
+	getCurrent,
+	getShowArrow,
+	getTransformAmount,
+	initItems,
+	rotateItems,
 	updateNodes,
 } from '../../helpers';
-import { SlideDirection, Item, ArrowKeys } from '../../types/carousel';
-import { defaultProps } from './defaultProps';
-import styles from '../../styles/styles.module.css';
 import { usePrevious } from '../../hooks';
+import styles from '../../styles/styles.module.css';
+import { ArrowKeys, Item, SlideDirection } from '../../types/carousel';
+import { Arrow } from '../arrow';
+import { ItemProvider } from '../item';
+import { defaultProps } from './defaultProps';
 
 export const Carousel: FunctionComponent<CarouselProps> = (userProps: CarouselProps) => {
 	const props: Required<CarouselProps> = { ...defaultProps, ...userProps };
