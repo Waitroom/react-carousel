@@ -1,4 +1,5 @@
 import React, {
+	Fragment,
 	FunctionComponent,
 	MouseEvent,
 	ReactElement,
@@ -29,12 +30,15 @@ export const ScrollingCarousel: FunctionComponent<SliderProps> = ({
 
 	const showArrows = (): Arrows => {
 		const sliderElement = slider.current;
+		const left = !!sliderElement && sliderElement.scrollLeft > 0;
+		const right =
+			!!sliderElement &&
+			sliderElement.scrollWidth >
+				sliderElement.scrollLeft + sliderElement.offsetWidth;
 		return {
-			left: !!sliderElement && sliderElement.scrollLeft > 0,
-			right:
-				!!sliderElement &&
-				sliderElement.scrollWidth >
-					sliderElement.scrollLeft + sliderElement.offsetWidth,
+			has: left || right,
+			left,
+			right,
 		};
 	};
 	const [showArrow, setShowArrow] = useState<Arrows>(showArrows());
@@ -160,13 +164,15 @@ export const ScrollingCarousel: FunctionComponent<SliderProps> = ({
 				style={sliderStyle}
 			>
 				{children.map((c, i) => (
-					<React.Fragment key={i}>{c}</React.Fragment>
+					<Fragment key={i}>{c}</Fragment>
 				))}
 			</div>
-			<div style={navStyle}>
-				{getArrow(SlideDirection.Right, 'left', showArrow.left, leftIcon)}
-				{getArrow(SlideDirection.Left, 'right', showArrow.right, rightIcon)}
-			</div>
+			{showArrow.has ? (
+				<div style={navStyle}>
+					{getArrow(SlideDirection.Right, 'left', showArrow.left, leftIcon)}
+					{getArrow(SlideDirection.Left, 'right', showArrow.right, rightIcon)}
+				</div>
+			) : null}
 		</div>
 	);
 };
@@ -183,6 +189,7 @@ export interface SliderProps {
 }
 
 export type Arrows = {
+	has: boolean;
 	left: boolean;
 	right: boolean;
 };
